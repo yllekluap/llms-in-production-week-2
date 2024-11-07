@@ -6,8 +6,7 @@ import streamlit as st
 
 from src.cached_resources import get_guard
 from src.constants import OPENAI_MODEL_ARGUMENTS
-from src.models import ValidSQL
-from src.utils import get_openai_api_key
+from src.models import LLMResponse
 
 st.set_page_config(page_title="SQL Code Generator")
 st.title("SQL Code Generator")
@@ -20,10 +19,16 @@ def generate_response(input_text: str, guard: gd.Guard) -> None:
     try:
         start_time = time.time()
 
-        (_, validated_response, _, validation_passed, error,) = guard(
+        (
+            _,
+            validated_response,
+            _,
+            validation_passed,
+            error,
+        ) = guard(
             openai.chat.completions.create,
             prompt_params={
-                "nl_instruction": input_text,
+                "query": input_text,
             },
             **OPENAI_MODEL_ARGUMENTS,
         )
@@ -31,7 +36,7 @@ def generate_response(input_text: str, guard: gd.Guard) -> None:
         if error or not validation_passed or not validated_response:
             st.error(f"Unable to produce an answer due to: {error}")
         else:
-            valid_sql = ValidSQL(**validated_response)
+            valid_sql = LLMResponse(**validated_response)
             generated_sql = valid_sql.generated_sql
             st.info(generated_sql)
             st.info(f"That query took: {total_time:.2f}s")
@@ -42,7 +47,6 @@ def generate_response(input_text: str, guard: gd.Guard) -> None:
 
 def main() -> None:
     guard = get_guard()
-    get_openai_api_key()
     with st.form("my_form"):
         text = st.text_area(
             "Enter text:",
