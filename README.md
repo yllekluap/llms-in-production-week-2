@@ -8,6 +8,10 @@ The course team will share with you an OpenAI API Key for this project. Please k
 
 - Once you’ve successfully completed your project, slow/stop your development to ensure that others in the class are able to complete their project.
 
-To use the API KEY you can add it as a secret in your CodeSpaces. Navigate to Settings > Secrets and variables > Codespaces and add your API Key there. Give a key value `OPENAI_API_KEY`. You will need to do the same for the `GUARDRAILS_TOKEN` that we used in Week 1.
+To use the API KEY you can add it as a secret in your CodeSpaces. Navigate to Settings > Secrets and variables > Codespaces and add your API Key there. Give a key value `OPENAI_API_KEY`.
+
+## Note on Guardrails.ai Token
+
+You will need to do the same for the `GUARDRAILS_TOKEN` that we used in Week 1.
 
 ![secrets]('./../assets/secrets.png)
